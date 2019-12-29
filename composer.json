@@ -1,27 +1,57 @@
 {
-    "name": "geosphereweb/websiteskeleton",
-    "description": "Best practice skeleton for Neos",
+    "name": "geosphereweb/basesinstallation",
+    "description": "Neos Base Distribution by GeosphereWeb",
+    "license": "GPL-3.0+",
+    "support": {
+        "email": "w.schroeter1@t-online.de"
+    },
     "config": {
         "vendor-dir": "Packages/Libraries",
-        "bin-dir": "bin",
-        "platform": {
-            "php": "7.2"
-        }
+        "bin-dir": "bin"
     },
     "require": {
-        "geosphereweb/bootstrap43" : "@dev",
+        "neos/neos": "~5.1.0",
+        "neos/site-kickstarter": "~5.1.0",
+        "neos/neos-ui": "~5.1",
+        "neos/seo": "~3.0",
+        "neos/redirecthandler-neosadapter": "~4.0",
+        "neos/redirecthandler-databasestorage": "~4.0",
+        "neos/redirecthandler-ui": "~2.0",
+        "neos/setup": "@dev",
+        "neos/neos-setup": "@dev",
+        "geosphereweb/bootstrap43": "@dev",
         "geosphereweb/apexengineering": "@dev"
     },
+    "require-dev": {
+        "neos/buildessentials": "@dev",
+        "mikey179/vfsstream": "^1.6",
+        "phpunit/phpunit": "^8.1",
+        "symfony/css-selector": "~2.0",
+        "neos/behat": "@dev"
+    },
     "repositories": {
-        "distribution": {
+        "distributionPackages": {
             "type": "path",
             "url": "./DistributionPackages/*"
         }
     },
+    "replace": {
+        "neos/neos-base-distribution": "^5.1"
+    },
+    "suggest": {
+        "ext-pdo_sqlite": "For running functional tests out-of-the-box this is required"
+    },
     "scripts": {
-        "post-update-cmd": "Neos\\Flow\\Composer\\InstallerScripts::postUpdateAndInstall",
-        "post-install-cmd": "Neos\\Flow\\Composer\\InstallerScripts::postUpdateAndInstall",
+        "post-update-cmd": [
+            "Neos\\Flow\\Composer\\InstallerScripts::postUpdateAndInstall"
+        ],
+        "post-install-cmd": [
+            "Neos\\Flow\\Composer\\InstallerScripts::postUpdateAndInstall",
+            "php -r \"system('mkdir ' . getcwd() . '/DistributionPackages ');\""
+        ],
         "post-package-update": "Neos\\Flow\\Composer\\InstallerScripts::postPackageUpdateAndInstall",
-        "post-package-install": "Neos\\Flow\\Composer\\InstallerScripts::postPackageUpdateAndInstall"
+        "post-package-install": [
+            "Neos\\Flow\\Composer\\InstallerScripts::postPackageUpdateAndInstall"
+        ]
     }
 }
